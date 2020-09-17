@@ -1,0 +1,60 @@
+easy_admin:
+  site_name: 'TryVR Admin'
+  design:
+    assets:
+      favicon: '/web/bundles/app/img/favicon/favicon.ico'
+  entities:
+    # change the following to the namespaces of your own entities
+    Booking:
+      label: 'Appointments'
+      class: Calendar\Domain\Booking\Infrastructure\DoctrineORM\Entity\Booking
+      #      controller: BookingBundle\Controller\BookingController
+      list:
+        fields: ['id','bookingDate','bookedSlots','approved','bookingTime','customer']
+        sort: 'bookingDate'
+    #      permissions:
+    #        list:  ['ROLE_SUPERADMIN']
+    #        create:  ['ROLE_SUPERADMIN']
+    #        edit:  ['ROLE_SUPERADMIN']
+    #        delete:  ['ROLE_SUPERADMIN']
+
+    BookingTime:
+      label: 'Booking Time'
+      class: Calendar\Domain\Booking\Infrastructure\DoctrineORM\Entity\BookingTime
+      #      controller: BookingBundle\Controller\BookingController
+    #      permissions:
+    #        list:  ['ROLE_SUPERADMIN']
+    #        create:  ['ROLE_SUPERADMIN']
+    #        edit:  ['ROLE_SUPERADMIN']
+    #        delete:  ['ROLE_SUPERADMIN']
+
+    Service:
+      label: 'Service'
+      class: Calendar\Domain\Admin\Infrastructure\DoctrineORM\Entity\Service
+      form:
+        fields:
+          - address
+          - type
+          - label
+          - maxSlots
+          - { property: 'bookingTimes', type_options: { by_reference: false } }
+
+    Price:
+      label: 'Price'
+      class: Calendar\Domain\Admin\Infrastructure\DoctrineORM\Entity\Price
+
+    Customers:
+      label: 'Customers'
+      class: Calendar\Domain\Admin\Infrastructure\DoctrineORM\Entity\Customer
+
+    Address:
+      label: 'Address'
+      class: Calendar\Domain\Admin\Infrastructure\DoctrineORM\Entity\Address
+      form:
+        fields:
+          - phoneOne
+          - phoneTwo
+          - street
+          - city
+          - { property: 'services', type_options: { by_reference: false } }
+

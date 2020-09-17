@@ -1,0 +1,66 @@
+services:
+  app.notification.mail:
+    class: Calendar\Domain\Admin\Notification\MailNotification
+    arguments: ['@mailer','@twig']
+
+  admin.model.services.promo:
+    class: Calendar\Domain\Admin\Model\Services\PromoService
+    arguments:
+      - '@admin.repository.payment_repository'
+      - '@booking.repository.booking_repository'
+
+  app.easyadmin.security:
+    class: Calendar\Domain\Admin\Security\EasyAdminSecurityEventSubscriber
+    arguments: ['@security.access.decision_manager', '@security.token_storage']
+    tags:
+      - { name: kernel.event_subscriber, priority: 10000}
+  admin.metadata.service:
+    class: Doctrine\ORM\Mapping\ClassMetadata
+    arguments:
+      - 'Calendar\Domain\Admin\Infrastructure\DoctrineORM\Entity\Service'
+
+  admin.repository.service_repository:
+    class: Calendar\Domain\Admin\Infrastructure\DoctrineORM\Repository\ServiceRepository
+    arguments:
+      - "@doctrine.orm.entity_manager"
+      - "@admin.metadata.service"
+
+  admin.metadata.address:
+    class: Doctrine\ORM\Mapping\ClassMetadata
+    arguments:
+      - 'Calendar\Domain\Admin\Infrastructure\DoctrineORM\Entity\Address'
+
+  admin.repository.address_repository:
+    class: Calendar\Domain\Admin\Infrastructure\DoctrineORM\Repository\AddressRepository
+    arguments:
+      - "@doctrine.orm.entity_manager"
+      - "@admin.metadata.address"
+
+  admin.metadata.users:
+    class: Doctrine\ORM\Mapping\ClassMetadata
+    arguments:
+      - 'Calendar\Domain\Admin\Infrastructure\DoctrineORM\Entity\Users'
+
+  admin.repository.users_repository:
+    class: Calendar\Domain\Admin\Infrastructure\DoctrineORM\Repository\UsersRepository
+    arguments:
+      - "@doctrine.orm.entity_manager"
+      - "@admin.metadata.users"
+
+  admin.metadata.payment:
+    class: Doctrine\ORM\Mapping\ClassMetadata
+    arguments:
+      - 'Calendar\Domain\Admin\Infrastructure\DoctrineORM\Entity\Payment'
+
+  admin.repository.payment_repository:
+    class: Calendar\Domain\Admin\Infrastructure\DoctrineORM\Repository\PaymentRepository
+    arguments:
+      - "@doctrine.orm.entity_manager"
+      - "@admin.metadata.payment"
+
+  admin.application.users.statistic:
+    class: AppBundle\Application\UserStatistics
+    arguments:
+      - "@admin.repository.users_repository"
+      - "@booking.repository.booking_repository"
+

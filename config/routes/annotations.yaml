@@ -1,0 +1,8 @@
+controllers:
+    resource: ../../src/Port/Controller/
+    type: annotation
+    prefix: calendar-api/
+
+kernel:
+    resource: ../../src/Kernel.php
+    type: annotation
